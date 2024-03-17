@@ -1,0 +1,29 @@
+title: File Deletion With SDelete
+id: 15cbad19-04a0-4d96-8abe-513d9abb7819
+status: test
+description: Detects file changes on Windows with file names containing AAA.AAA that is a common indicator of the tool. The tool overwrites the files alphabetically, thus the reason for the file name.
+author: Michael Vilshin
+date: 15/03/2024
+modified: 
+logsource:
+    service: security
+    product: windows
+detection:
+  selection:
+    EventID: 
+        - 4656
+    ObjectName|endswith: 
+        - 'AAA.AAA'
+  condition: selection
+  fields:
+    - EventID
+    - ObjectName
+falsepositives:
+    - Administrator permanently deleting old sensitive files.
+level: low
+references:
+    - https://learn.microsoft.com/en-us/sysinternals/downloads/sdelete
+    - https://attack.mitre.org/techniques/T1485/
+tags:
+    - attack.data_destruction
+    - attack.t1485
