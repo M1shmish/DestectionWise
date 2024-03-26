@@ -1,0 +1,38 @@
+title: firewall rule addition with netsh.exe
+id: c9942c99-e5da-4e3c-a6a9-c42a16fa8835
+status: test
+description: detects the addition of an internal fw rule for inbound traffic.
+author: Michael Vilshin
+date: 26/03/2024
+modified: 
+logsource:
+  category: process_creation
+  product: windows
+  service: sysmon
+detection:
+  selection:
+    selection_image:
+        - Image|endswith: '\netsh.exe'
+        - OriginalFileName: 'netsh.exe'
+    selection_argument:
+        CommandLine|contains: 
+            - 'advfirewall'
+            - 'firewall'
+            - 'add rule'
+    selection_dir:
+        CommandLine|contains: 'dir=in'
+    selection_proto:
+        CommandLine|contains: 'protocol=TCP'
+    selection_action:
+        CommandLine|contains: 'action=allow'
+  condition: all of selection_*
+fields: 
+    - Image
+    - OriginalFileName
+    - CommandLine
+falsepositives: 
+    - administrator opens a firewall port for incoming traffic
+level: medium
+tags: 
+  - attack.defense_evasion
+  - attack.t1205
