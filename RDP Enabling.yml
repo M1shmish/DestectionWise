@@ -1,0 +1,40 @@
+title: remote desktop enabling
+id: 4621284a-6d8b-460d-a108-b8da39d63765
+status: test
+description: detects the enabling of remotedesktop on a computer.
+author: Michael Vilshin
+date: 26/03/2024
+modified: 
+logsource:
+  category: registry_set
+  product: windows
+  service: sysmon
+detection:
+  selection:
+    selection_name:
+        EventType: 'SetValue'
+    selection_rule:
+        RuleName: 'ModifyRemoteDesktopState'
+    selection_image:
+        Image|endswith: 'reg.exe'
+    selection_object:
+        TargetObject: 'HKLM\System\CurrentControlSet\Control\Terminal Server\fDenyTSConnections'
+    selection_details:
+        Details|contains: 
+            - 'DWORD'
+            - (0x00000000)
+  condition: all of selection_*
+fields: 
+    - EventType
+    - RuleName
+    - Image
+    - TargetObject
+    - Details
+falsepositives: 
+    - admins enabling rdp for maintainance
+level: medium
+tags: 
+  - attack.persistance
+  - attack.defense_evasion
+  - attack.t1133
+  - attack.t1112
