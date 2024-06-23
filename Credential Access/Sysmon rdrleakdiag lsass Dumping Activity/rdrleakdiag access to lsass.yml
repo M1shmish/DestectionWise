@@ -1,0 +1,40 @@
+title: rdrleakdiag.exe Memory Dump Usage
+id: e0393bbf-cced-4f70-824f-5d8fed343891
+status: experimental
+description: The action of the diagnostics tool rdrleakdiag.exe accessing lsass memory.
+author: Michael Vilshin
+date: 06/23/2024
+#modified: 
+logsource:
+  category: process_creation
+  product: windows
+  service: sysmon
+detection:
+  selection:
+    selection_eventid: 
+        EventID: 8
+    selection_sourceimage:
+        SourceImage|endswith: '\rdrleakdiag.exe'
+    selection_TargetImage:
+        TargetImage|endswith: '\lsass.exe'
+  condition: all of selection_*
+fields: 
+    - EventID
+    - UtcTime
+    - SourceProcessId
+    - SourceImage
+    - TargetProcessGuid
+    - TargetProcessId
+    - TargetImage
+    - NewThreadId
+    - StartModule
+    - SourceUser
+    - TargetUser
+falsepositives: 
+    - System Administration Team uses diagnostics and debugging tools.
+level: High
+references:
+    - https://lolbas-project.github.io/lolbas/Binaries/Rdrleakdiag/
+tags: 
+  - attack.credential_access
+  - attack.t1003.001
