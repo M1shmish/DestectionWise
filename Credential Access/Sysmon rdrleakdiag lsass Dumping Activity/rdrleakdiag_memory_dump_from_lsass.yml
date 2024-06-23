@@ -45,6 +45,8 @@ fields:
 falsepositives: 
     - System Administration Team uses diagnostics and debugging tools.
 level: High
+references:
+    - https://lolbas-project.github.io/lolbas/Binaries/Rdrleakdiag/
 tags: 
   - attack.credential_access
   - attack.t1003.001
