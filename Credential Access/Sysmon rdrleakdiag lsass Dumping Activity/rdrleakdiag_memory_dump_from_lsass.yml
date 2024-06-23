@@ -1,0 +1,50 @@
+title: rdrleakdiag.exe Memory Dump From Lsass
+id: 6addb3fb-c640-4b31-8147-418bf6e920ff
+status: experimental
+description: Abuse attempt of a diagnostic tool that is included in the SysinternalsSuite. This tool is used to troubleshoot memory leaks in the Redirected Drive Buffering Subsystem Driver.
+author: Michael Vilshin
+date: 06/23/2024
+modified: 
+logsource:
+  category: process_creation
+  product: windows
+  service: sysmon
+detection:
+  selection:
+    selection_eventid: 
+        EventID: 1
+    selection_image:
+        - Image|endswith: '\rdrleakdiag.exe'
+        - OriginalFileName: 'RdrLeakDiag.exe'
+    selection_process:
+        CommandLine|contains: 'rdrleakdiag.exe'
+    selection_flag:
+        CommandLine|contains:
+            - '/p'
+            - '-p'
+    selection_operation:
+        CommandLine|contains: 
+            - 'memdmp'
+            - 'fullmemdmp'
+  condition: all of selection_*
+fields: 
+    - UtcTime
+    - ProcessId
+    - Image
+    - OriginalFileName
+    - CommandLine
+    - CurrentDirectory
+    - User
+    - LogonId
+    - TerminalSessionId
+    - Hashes
+    - ParentProcessId
+    - ParentImage
+    - ParentCommandLine
+    - ParentUser
+falsepositives: 
+    - System Administration Team uses diagnostics and debugging tools.
+level: High
+tags: 
+  - attack.credential_access
+  - attack.t1003.001
