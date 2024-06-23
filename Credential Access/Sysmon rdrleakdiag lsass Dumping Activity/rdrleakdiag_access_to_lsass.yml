@@ -1,4 +1,4 @@
-title: rdrleakdiag.exe Memory Dump Usage
+title: rdrleakdiag.exe Access to lsass
 id: e0393bbf-cced-4f70-824f-5d8fed343891
 status: experimental
 description: The action of the diagnostics tool rdrleakdiag.exe accessing lsass memory.
