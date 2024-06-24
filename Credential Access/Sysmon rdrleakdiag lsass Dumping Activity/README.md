@@ -1,42 +1,14 @@
-# Detection Rules for rdrleakdiag.exe Abuse
+# rdrleakdiag.exe Abuse
 
 ## Overview
 
-This repository contains detection rules for potential abuse scenarios involving `rdrleakdiag.exe`, a diagnostic tool from SysinternalsSuite, attempting unauthorized actions on `lsass.exe` memory or performing memory dumps.
+`rdrleakdiag.exe`, is a diagnostic tool from SysinternalsSuite,that in the words of google:
+"a diagnostic tool developed by Microsoft Windows to troubleshoot memory leaks in the Redirected Drive Buffering Subsystem (Rdbss) driver"
 
-### Rules Included
-
-1. **Title**: rdrleakdiag.exe Access to lsass
-   - **ID**: e0393bbf-cced-4f70-824f-5d8fed343891
-   - **Description**: Detection of rdrleakdiag.exe accessing lsass.exe memory.
-   - **Author**: Michael Vilshin
-   - **Date**: 06/23/2024
-   - **Log Source**: Windows Sysmon (process_creation)
-   - **Detection Criteria**:
-     - EventID: 8
-     - SourceImage ends with `\rdrleakdiag.exe`
-     - TargetImage ends with `\lsass.exe`
-   - **Fields**: EventID, UtcTime, SourceProcessId, SourceImage, TargetProcessGuid, TargetProcessId, TargetImage, NewThreadId, StartModule, SourceUser, TargetUser
-   - **False Positives**: System Administration Team uses diagnostics and debugging tools.
-   - **Level**: High
-   - **References**: [LOLBAS - Rdrleakdiag](https://lolbas-project.github.io/lolbas/Binaries/Rdrleakdiag/)
-   - **Tags**: attack.credential_access, attack.t1003.001
-
-2. **Title**: rdrleakdiag.exe Memory Dump From Lsass
-   - **ID**: 6addb3fb-c640-4b31-8147-418bf6e920ff
-   - **Description**: Attempted memory dump by rdrleakdiag.exe from lsass.exe.
-   - **Author**: Michael Vilshin
-   - **Date**: 06/23/2024
-   - **Log Source**: Windows Sysmon (process_creation)
-   - **Detection Criteria**:
-     - EventID: 1
-     - Image ends with `\rdrleakdiag.exe` OR OriginalFileName is 'RdrLeakDiag.exe'
-     - CommandLine contains 'rdrleakdiag.exe' and '/p' or '-p'
-     - CommandLine contains 'memdmp' or 'fullmemdmp'
-   - **Fields**: UtcTime, ProcessId, Image, OriginalFileName, CommandLine, CurrentDirectory, User, LogonId, TerminalSessionId, Hashes, ParentProcessId, ParentImage, ParentCommandLine, ParentUser
-   - **False Positives**: System Administration Team uses diagnostics and debugging tools.
-   - **Level**: High
-   - **Tags**: attack.credential_access, attack.t1003.001
+The bottom line for the security enthusiasts reading this is not the usage of the tool, but the way to abuse it.
+due to the nature of the tool that enables a user to perform debbuging actions on the memory, the tool is abused to enable some users (or attackers) to access the memory of some sensitive processes
+or more specifically, the lucrative `lsass.exe` process that stores and manages credentials such as passwords, certificates, and security tokens in memory.
+sounds easy to exploit? that because it actually is!
 
 ## Purpose
 
