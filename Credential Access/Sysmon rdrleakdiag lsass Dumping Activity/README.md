@@ -25,7 +25,7 @@ The detection of this event is relativly simple as the exploitation, as the acti
 * The sub-process creation:
   - There is no suggested rule to detect this behaviour as it is recorded only as the process creation of the `lsass.exe` process by the `lsass.exe` process. with that said, it is still may be an important activity to log for your forensic analysis or with the use of most of the SIEMs, to create a nice _corralation rule_.
 * The File Creation:
-  - There is no suggested rule to detect this behaviour as the file creation is a very dynamic event but it will definitly be usefull for forensics and as before - a nice _corralation rule_.
+  - There is no suggested rule to detect this behaviour as the file creation is a very dynamic event and so it is not suggested to create a rule based on it however it will definitly be usefull for forensics and as before - a nice _corralation rule_.
 
 ## Purpose
 
