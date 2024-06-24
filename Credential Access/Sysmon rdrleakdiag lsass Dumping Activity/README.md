@@ -12,12 +12,20 @@ sounds easy to exploit? that because it actually is!
 
 ## Detection
 
-The detection of this event is relativly as the exploitation, as the action generates four events (Assuming you use "Sysmon" for logging)
+The detection of this event is relativly simple as the exploitation, as the action generates four events (Assuming you use "Sysmon" for logging)
 * The command execution:
-  - The rule "rdrleakdiag_memory_dump_from_lsass" detects just that! the command that is executed goes as follows
-    `CommandLine: rdrleakdiag.exe  /p 668 /o C:\Users\wanwan\Desktop /fullmemdmp /snap`
-    
-
+  - The rule "rdrleakdiag_memory_dump_from_lsass" detects just that! the command that is executed goes as follows:
+    `CommandLine: rdrleakdiag.exe  /p {PID} /o {path} /fullmemdmp`
+    - The commnad specifies the "Process ID" of the desired process, this flag can be executed either as `-p` or `/p` **_Do not specify the process number as it is dynamic_**
+    - The flag `/o` specifies the desired location of the output file. this flag is easily replacable by `>` or `>>` and probably by other options as well.
+    - The `/fullmemdmp` option specifies to generate a full memory dump of the desired process but it can also be replaced with options like `memdump` and such so this option should cover the options.
+* The Remote Thread Creation:
+  - The rule "rdrleakdiag_access_to_lsass" is set to tetect this event.
+    - The source and the target image ilustrate the "SourceImage" `rdrleakdiag.exe` accessing the "TargetImage" `lsass.exe`.
+* The sub-process creation:
+  - There is no suggested rule to detect this behaviour as it is recorded only as the process creation of the `lsass.exe` process by the `lsass.exe` process. with that said, it is still may be an important activity to log for your forensic analysis or with the use of most of the SIEMs, to create a nice _corralation rule_.
+* The File Creation:
+  - There is no suggested rule to detect this behaviour as the file creation is a very dynamic event but it will definitly be usefull for forensics and as before - a nice _corralation rule_.
 
 ## Purpose
 
