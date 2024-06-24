@@ -10,6 +10,15 @@ due to the nature of the tool that enables a user to perform debbuging actions o
 or more specifically, the lucrative `lsass.exe` process that stores and manages credentials such as passwords, certificates, and security tokens in memory.
 sounds easy to exploit? that because it actually is!
 
+## Detection
+
+The detection of this event is relativly as the exploitation, as the action generates four events (Assuming you use "Sysmon" for logging)
+* The command execution:
+  - The rule "rdrleakdiag_memory_dump_from_lsass" detects just that! the command that is executed goes as follows
+    `CommandLine: rdrleakdiag.exe  /p 668 /o C:\Users\wanwan\Desktop /fullmemdmp /snap`
+    
+
+
 ## Purpose
 
 These rules are designed to detect potential misuse or unauthorized use of `rdrleakdiag.exe` against sensitive system processes like `lsass.exe`, which could indicate credential access or other malicious activities.
