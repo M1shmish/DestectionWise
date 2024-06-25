@@ -13,12 +13,12 @@ as described in MITRE:
 >
 > https://attack.mitre.org/tactics/TA0006/
 
-Harder is not impossible! so here are few rules i came up with wihile studying adverserial techniques
+Harder is not impossible! so here are few rules i came up with while studying adverserial techniques
 
 ## Table of Contents:
 - **"rdrleakdiag.exe Abuse"** - A realy powerfull tool, in the wrong hands it becomes a hacktool.
 
-##Contributing
+## Contributing
 
 This is an ongoing project, I will try to upload new rules or articles on weekly basis so stay tuned. 
 
