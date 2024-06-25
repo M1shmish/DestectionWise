@@ -92,7 +92,3 @@ To respond to this incident, you should try to prevent the output file from leav
 ## Contributing
 
 Contributions to improve the accuracy and scope of these detection rules are welcome. Please fork the repository, make your changes, and submit a pull request with a clear description of the proposed updates.
-
-## License
-
-This project is licensed under the [Michael Vilshin License](LICENSE) witch means that I did the work and you get to try it ;).
