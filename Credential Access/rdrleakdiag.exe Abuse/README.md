@@ -76,10 +76,23 @@ TargetFilename: C:\Users\wanwan\Desktop\minidump_668.dmp
 CreationUtcTime: 4/16/2020
 User: {User}`
 
+## Response
+
+The response depends on the phase and the rule that detected the incident.
+Basically, the investigation needs to answer the following questions:
+* Was the attack successful?
+* What is the history of the user who initiated the action (this will help to determine how the attacker got to that point)
+* What server was the action performed on (this will help to determine the scope of the affected users and systems)
+* What's the name of the output file?
+* What did the attacker do with the output file afterwards?
+
+To respond to this incident, you should try to prevent the output file from leaving thecomputer, the file should be investigated to determine the information that the attacker could have obtained, suspension of the affected users including the user who performed the action and investigation of all the actions that were made prior to the incident in order to determine the scope of the attack until that point.
+
+
 ## Contributing
 
 Contributions to improve the accuracy and scope of these detection rules are welcome. Please fork the repository, make your changes, and submit a pull request with a clear description of the proposed updates.
 
 ## License
 
-This project is licensed under the [MIT License](LICENSE).
+This project is licensed under the [Michael Vilshin License](LICENSE) witch means that I did the work and you get to try it ;).
