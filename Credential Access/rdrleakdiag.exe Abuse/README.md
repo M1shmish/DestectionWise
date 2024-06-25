@@ -40,29 +40,53 @@ As described in the previous section, the correlation rule consists of four dete
   - TargetProcessId
 3. The third phase is detecting the execution of `lsass`. however, **you should not implement an offense rule based on this event**.  The sole purpose of this query will be for the correlation. this event will be matched based the "ParentProcessId" field and the "TargetProcessId" field in the previous event. the "ParentProcessId" will also be usefull for detecting the following event.
 Here is how the log looks like, for creating the relevant query:
-`Level	Date and Time	Source	Event ID	Task Category
-Information	4/16/2020 3:47:36 PM	Microsoft-Windows-Sysmon	1	Process Create (rule: ProcessCreate)	"Process Create:
-RuleName: 
-UtcTime: 4/16/2020
-ProcessGuid: {GUID}
-ProcessId: {PID}
-Image: C:\Windows\System32\lsass.exe
-FileVersion: 10.0.19041.488 (WinBuild.160101.0800)
-Description: Local Security Authority Process
-Product: MicrosoftÂ® WindowsÂ® Operating System
-Company: Microsoft Corporation
-OriginalFileName: lsass.exe
-CommandLine: C:\WINDOWS\system32\lsass.exe
-CurrentDirectory: C:\WINDOWS\system32\
-LogonId: 0x3E7
-TerminalSessionId: 0
-IntegrityLevel: System
-Hashes: MD5= {Hash},SHA256={Hash},IMPHASH={Hash}
-ParentProcessGuid: {guid}
-ParentProcessId: 668
-ParentImage: C:\Windows\System32\lsass.exe
-ParentCommandLine: C:\WINDOWS\system32\lsass.exe
-ParentUser: {User}`
+
+`Level	Date and Time	Source	Event ID	Task Category`
+
+`Information	4/16/2020 3:47:36 PM	Microsoft-Windows-Sysmon	1	Process Create (rule: ProcessCreate)	"Process Create:`
+
+`RuleName:`
+
+`UtcTime: 4/16/2020`
+
+`ProcessGuid: {GUID}`
+
+`ProcessId: {PID}`
+
+`Image: C:\Windows\System32\lsass.exe`
+
+`FileVersion: 10.0.19041.488 (WinBuild.160101.0800)`
+
+`Description: Local Security Authority Process`
+
+`Product: MicrosoftÂ® WindowsÂ® Operating System`
+
+`Company: Microsoft Corporation`
+
+`OriginalFileName: lsass.exe`
+
+`CommandLine: C:\WINDOWS\system32\lsass.exe`
+
+`CurrentDirectory: C:\WINDOWS\system32\`
+
+`LogonId: 0x3E7`
+
+`TerminalSessionId: 0`
+
+`IntegrityLevel: System`
+
+`Hashes: MD5= {Hash},SHA256={Hash},IMPHASH={Hash}`
+
+`ParentProcessGuid: {guid}`
+
+`ParentProcessId: 668`
+
+`ParentImage: C:\Windows\System32\lsass.exe`
+
+`ParentCommandLine: C:\WINDOWS\system32\lsass.exe`
+
+`ParentUser: {User}`
+
 4. the fourth and final phase of the correlation is detecting the file created. in that case also, **you should not implement an offense rule based on this event**. but you should definitely look at the event if all other events happened. the event will be connected to the previous events based on the "Image" and the time of the event.
 Here is how the log looks like, for creating the relevant query:
 `Level	Date and Time	Source	Event ID	Task Category
