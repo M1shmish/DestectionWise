@@ -34,10 +34,10 @@ Although these rules are effective enough on their own, there is a possibility f
 As described in the previous section, the correlation rule consists of four detections for the four events that accounts.
 
 1. First, use the rule "rdrleakdiag_memory_dump_from_lsass" to detect the malicious command execution. the event will provide the following fields that may be useful for the correlation:
- - User
- - ProcessId
+  - User
+  - ProcessId
 2. The second phase is to use the rule "rdrleakdiag_access_to_lsass" to detect the malicious thread creation. the event that accour should contain a "SourceProcessId" field that will match the ProcessId field from the previous event as they are sequential. with the following fields you can continue the correlation.
- - TargetProcessId
+  - TargetProcessId
 3. The third phase is detecting the execution of `lsass`. however, **you should not implement an offense rule based on this event**.  The sole purpose of this query will be for the correlation. this event will be matched based the "ParentProcessId" field and the "TargetProcessId" field in the previous event. the "ParentProcessId" will also be usefull for detecting the following event.
 Here is how the log looks like, for creating the relevant query:
 `Level	Date and Time	Source	Event ID	Task Category
