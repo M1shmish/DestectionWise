@@ -14,4 +14,9 @@ My job as a SIEM engineer, IR steamer and threat researcher taught me few things
 
 so I decided to test my knowledge in front of a big crowd (The opemn source community/free stuff community), to showcase any business decision maker that might be reading this how easy it is to penetrate an organization without implemented security measures and how important good detection really is, and mainly improve my skills.
 
+##Contributing
+
 This is an ongoing project, I will try to upload new rules or articles on weekly basis so stay tuned.
+If you have any inputs to give me, mistakes you've found, suggestions, questions or anything else then I would like to hear from you about it.
+
+hope you enjoy the reading and a great benefit from this project.
