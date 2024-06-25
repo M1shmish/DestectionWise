@@ -19,7 +19,9 @@ so I decided to test my knowledge in front of a big crowd (The opemn source comm
 
 ## Contributing
 
-This is an ongoing project, I will try to upload new rules or articles on weekly basis so stay tuned.
-If you have any inputs to give me, mistakes you've found, suggestions, questions or anything else then I would like to hear from you about it.
+This is an ongoing project, I will try to upload new rules or articles on weekly basis so stay tuned. 
 
-hope you enjoy the reading and a great benefit from this project.
+If you have any inputs to give me, mistakes you've found, suggestions, questions or anything else - I would like to hear from you about it.
+
+hope you enjoy the reading and the "Sigma Rules".
+
