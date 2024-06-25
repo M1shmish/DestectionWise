@@ -1,5 +1,8 @@
 # DestectionWise
-**A Collection of Sigma detection rules.**
+
+**_"Good fences make good neighbors."_**
+
+**Less of a fance but more of a security cam calibration, here is a Collection of Sigma detection rules.**
 
 ## Overview
 
