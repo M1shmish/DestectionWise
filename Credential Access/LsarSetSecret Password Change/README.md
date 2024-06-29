@@ -2,46 +2,47 @@
 
 ## Overview
 
-`LsarSetSecret`, is a function that helps to manage the LSA which maintains the registery parts that store sensitive information like keys and hashed passwords.
-This function allowes to set the value of a secret object stored by the LSA (Local Security Authority)
+`LsarSetSecret` is a function that helps to manage the LSA, which maintains the registry parts that store sensitive information like keys and hashed passwords. This function allows setting the value of a secret object stored by the LSA (Local Security Authority).
 
-For the security people around here this brobably already sounds alarming. basically, abusing this function will grant you the ability to dump or change secrets such as:
+For security professionals, this probably already sounds alarming. Abusing this function grants the ability to dump or change secrets such as:
 - Machine account passwords
 - Service account passwords
 - Other sensitive information needed by the system or specific applications
-The eploitation of this function can be performed by a schedueled task, Malicious Services and malwares, such as with the use of mimikatz `lsadump::secrets` command.
+
+The exploitation of this function can be performed by scheduled tasks, malicious services, and malware, such as with the use of Mimikatz's `lsadump::secrets` command.
 
 ## Detection
 
-As the vector of the exploitation can vary, we will try to detect not the action of exploitation but the result. the detection of the `LsarSetSecret` function abuse should be based on the two seperate events of registery key creation and the setting of the value in the registery (event IDs 12-13)
-* The key Creation:
-  - The rule "LsarSetSecret_key_creation" will detect any creation of keys in the 
-    `HKLM\SECURITY\Policy\Secrets\$MACHINE.ACC\CurrVal` registry path.
-    - The action will most likly be performed by lsass as it has the privileges to manage the LSA throught these functions and it is injectable and overall a highly targeted service by tools such as mimikatz and more.
-      - The first option to detect this event is as described in the rule. this may be more precise way of detection that will eliminate alot of false positives. this means monitoring the abuse of this function by lsass.
-      - The second option to detect this event is using a broader detection method by monitoring any change done using this function by any initiator (Image). **This can couse the rule to detect alot of False Positive events so be carefull when implementing these rules in your environment**
-      - Also it is advised to monitor all the actions done by the function and currate a whitelist of permitted initiators.
-* The Setting of The New Value
-  - The rule "LsarSetSecret_value_set" will the detect the setting of the new passord or as it is named "the value inpoted in to the registery" in the:
-    `HKLM\SECURITY\Policy\Secrets\$MACHINE.ACC\CurrVal` registry path.
-    - This event is a proggression of the "LsarSetSecret_key_creation" as it will detect the follow-up action done by the system.
-    - the options of detection with this rule can be as described in the previus section.
+As the vector of the exploitation can vary, we will try to detect not the action of exploitation but the result. The detection of the `LsarSetSecret` function abuse should be based on the two separate events of registry key creation and the setting of the value in the registry (event IDs 12-13).
 
+### Key Creation
 
-### Correlation
+- The rule "LsarSetSecret_key_creation" will detect any creation of keys in the `HKLM\SECURITY\Policy\Secrets\$MACHINE.ACC\CurrVal` registry path.
+  - The action will most likely be performed by `lsass.exe` as it has the privileges to manage the LSA through these functions and it is injectable and overall a highly targeted service by tools such as Mimikatz and more.
+    - The first option to detect this event is as described in the rule. This may be a more precise way of detection that will eliminate a lot of false positives. This means monitoring the abuse of this function by `lsass.exe`.
+    - The second option to detect this event is using a broader detection method by monitoring any change done using this function by any initiator (Image). **This can cause the rule to detect a lot of false positives, so be careful when implementing these rules in your environment.**
+    - It is also advised to monitor all the actions done by the function and curate a whitelist of permitted initiators.
 
-There is no correlation that i can think of other then correlating these two rules basing the corellation on the "ProcessId" of the two events to know if the action Succeeded.
+### Setting of the New Value
+
+- The rule "LsarSetSecret_value_set" will detect the setting of the new password, or as it is named, "the value inputted into the registry" in the `HKLM\SECURITY\Policy\Secrets\$MACHINE.ACC\CurrVal` registry path.
+  - This event is a progression of the "LsarSetSecret_key_creation" as it will detect the follow-up action done by the system.
+  - The options of detection with this rule can be as described in the previous section.
+
+## Correlation
+
+There is no correlation that I can think of other than correlating these two rules based on the "ProcessId" of the two events to know if the action succeeded.
 
 ## Response
 
-The response should be the examination of the process that invoked the dangerous function or the lsass process, depends on what you chose to monitor
+The response should involve examining the process that invoked the dangerous function or the `lsass.exe` process, depending on what you chose to monitor.
 
-the investigation needs to answer the following questions:
+The investigation needs to answer the following questions:
 * Who is the initiator of the action?
-* What made the initiator to use the dangerous function?
+* What caused the initiator to use the dangerous function?
 * What data was changed by the function?
 
-You should act quickly to understand what privileges does the attacker has and on which user and also analyze the data changed in the registery and try understanding to which users the attacker might have gained access with this exploit.
+You should act quickly to understand what privileges the attacker has and on which user. Also, analyze the data changed in the registry and try to understand which users the attacker might have gained access to with this exploit.
 
 ## Contributing
 
