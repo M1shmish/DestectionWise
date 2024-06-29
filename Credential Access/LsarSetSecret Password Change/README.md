@@ -21,10 +21,16 @@ As the vector of the exploitation can vary, we will try to detect not the action
       - The first option to detect this event is as described in the rule. this may be more precise way of detection that will eliminate alot of false positives. this means monitoring the abuse of this function by lsass.
       - The second option to detect this event is using a broader detection method by monitoring any change done using this function by any initiator (Image). **This can couse the rule to detect alot of False Positive events so be carefull when implementing these rules in your environment**
       - Also it is advised to monitor all the actions done by the function and currate a whitelist of permitted initiators.
+* The Setting of The New Value
+  - The rule "LsarSetSecret_value_set" will the detect the setting of the new passord or as it is named "the value inpoted in to the registery" in the:
+    `HKLM\SECURITY\Policy\Secrets\$MACHINE.ACC\CurrVal` registry path.
+    - This event is a proggression of the "LsarSetSecret_key_creation" as it will detect the follow-up action done by the system.
+    - the options of detection with this rule can be as described in the previus section.
 
 
 ### Correlation
 
+There is no correlation that i can think of other then correlating these two rules basing the corellation on the "ProcessId" of the two events to know if the action Succeeded.
 
 ## Response
 
@@ -35,6 +41,7 @@ the investigation needs to answer the following questions:
 * What made the initiator to use the dangerous function?
 * What data was changed by the function?
 
+You should act quickly to understand what privileges does the attacker has and on which user and also analyze the data changed in the registery and try understanding to which users the attacker might have gained access with this exploit.
 
 ## Contributing
 
