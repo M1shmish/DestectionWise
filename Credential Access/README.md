@@ -17,7 +17,7 @@ Harder is not impossible! so here are few rules i came up with while studying ad
 
 ## Table of Contents:
 - **"rdrleakdiag.exe Abuse"** - A realy powerfull tool, in the wrong hands it becomes a hacktool.
-- **"LsarSetSecret Password Change"** - A technique that enables an attacker
+- **"LsarSetSecret Password Change"** - A technique that enables an attacker to perform an unwanted password change.
 
 ## Contributing
 
