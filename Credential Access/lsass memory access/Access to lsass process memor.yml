@@ -1,0 +1,67 @@
+title: Access to lsass process memory
+id: 
+status: experimental
+description: Detects access to LSASS process memory, which may indicate credential dumping attempts.
+author: Michael Vilshin
+date: 08/06/2024
+modified: 
+logsource:
+  category: object_access
+  product: windows
+detection:
+  selection:
+    selection_eventid: 
+        EventID: 4663
+    selection_object:
+        - ObjectName|endswith: '\lsass.exe'
+        - ObjectType: 'Process'
+    selection_process:
+        ProcessName|endswith: 'cscript.exe'
+    option_accesses:
+        Accesses|contains: 
+            - 'Read from process memory'
+            - 'READ_CONTROL'
+            - 'WRITE_OWNER'
+            - 'WRITE_DAC'
+            - 'Query process information'
+            - 'SYNCHRONIZE'
+            - 'PROCESS_VM_READ'
+            - 'PROCESS_VM_WRITE'
+            - 'PROCESS_VM_OPERATION'
+            - 'PROCESS_DUP_HANDLE'
+            - 'PROCESS_CREATE_THREAD'
+    option_accessmasks:
+        AccessMask|contains: 
+            - '0x10'      # PROCESS_VM_READ
+            - '0x0410'    # PROCESS_QUERY_INFORMATION + PROCESS_VM_READ
+            - '0x140'
+            - '0x1FFFFF'  # Full Control
+            - '0x1F0FFF'  # Extensive Control
+            - '0x1F3FFF'  # Similar to Full Control
+            - '0x1438'    # Process Duplication + Thread
+            - '0x0F10'    # Combined Read and Write
+            - '0xC0000'   # WRITE_DAC + WRITE_OWNER
+            - '0x4000'    # PROCESS_VM_OPERATION
+            - '0x0008'    # WRITE_DAC
+            - '0x0010'    # WRITE_OWNER
+            - '0x0004'    # READ_CONTROL
+  condition: all of selection_* and any of option_*
+fields: 
+    - AccessMask
+    - Accesses
+    - ProcessName
+    - ProcessID
+    - HandleID
+    - ObjectName
+    - ObjectType
+    - LogonID
+    - AccountName
+    - SecurityID
+falsepositives: 
+    - A legitimate script that was executed by the by a sysadmin or a developer.
+level: High
+references:
+    - https://www.elastic.co/guide/en/security/current/lsass-memory-dump-handle-access.html
+tags: 
+  - attack.credential_access
+  - attack.t1003.001

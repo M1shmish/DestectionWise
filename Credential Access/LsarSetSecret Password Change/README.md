@@ -46,4 +46,4 @@ You should act quickly to understand what privileges the attacker has and on whi
 
 ## Contributing
 
-Contributions to improve the accuracy and scope of these detection rules are welcome. Please fork the repository, make your changes, and submit a pull request with a clear description of the proposed updates.
+If you have any inputs to give me, mistakes you've found, suggestions, questions, or anything else, I would like to hear from you about it.
