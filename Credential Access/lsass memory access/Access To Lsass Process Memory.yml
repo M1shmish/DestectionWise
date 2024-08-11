@@ -1,5 +1,5 @@
 title: Access to lsass process memory
-id: 
+id: bae51745-cb8c-47d1-a87c-803ad69b5b47
 status: experimental
 description: Detects access to LSASS process memory, which may indicate credential dumping attempts.
 author: Michael Vilshin
